@@ -19,26 +19,7 @@ services:
     networks:
       - api-network
     depends_on:
-      - migration
-
-  migration:
-    build: .
-    image: app
-    command: npm run migrate
-    environment:
-      - HOST=postgres
-      - DB=tasks_db
-      - USERNAME=postgres
-      - PASSWORD=fl0r14n0p0l1s
-    volumes:
-      - .:/usr/app
-      - node_modules:/usr/app/node_modules
-    links:
       - postgres
-    depends_on:
-      - postgres
-    networks:
-      - api-network
 
   postgres:
     restart: always
