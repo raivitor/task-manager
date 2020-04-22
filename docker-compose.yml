@@ -1,0 +1,63 @@
+version: '3'
+
+services:
+  app:
+    restart: always
+    build: .
+    command: npm start
+    ports:
+      - '3000:3000'
+    environment:
+      - HOST=postgres
+      - DB=tasks_db
+      - USERNAME=postgres
+      - PASSWORD=fl0r14n0p0l1s
+      - SECRET=9babf113122126d460cd75059ff4067e
+    volumes:
+      - .:/usr/app
+      - node_modules:/usr/app/node_modules
+    networks:
+      - api-network
+    depends_on:
+      - migration
+
+  migration:
+    build: .
+    image: app
+    command: npm run migrate
+    environment:
+      - HOST=postgres
+      - DB=tasks_db
+      - USERNAME=postgres
+      - PASSWORD=fl0r14n0p0l1s
+    volumes:
+      - .:/usr/app
+      - node_modules:/usr/app/node_modules
+    links:
+      - postgres
+    depends_on:
+      - postgres
+    networks:
+      - api-network
+
+  postgres:
+    restart: always
+    ports:
+      - 5432:5432
+    image: postgres:12-alpine
+    environment:
+      - POSTGRES_DB=tasks_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=fl0r14n0p0l1s
+    volumes:
+      - pgdata:/var/lib/postgresql/data/
+    networks:
+      - api-network
+
+networks:
+  api-network:
+    driver: bridge
+
+volumes:
+  pgdata:
+  node_modules:
