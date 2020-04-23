@@ -26,4 +26,4 @@ https://rai-task-manager.herokuapp.com/
 
 ## DB Diagram
 
-![Diagram](https://github.com/raivitor/boilerplate-nodejs-postgress/blob/anastech/diagram.png)
+![Diagram](https://github.com/raivitor/task-manager/blob/master/diagram.png)
