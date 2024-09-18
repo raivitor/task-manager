@@ -1,4 +1,4 @@
-import { Router } from 'express';
+const Router = require("express").Router
 
 const UserCtrl = require('./controllers/UserCtrl');
 const DepartmentCtrl = require('./controllers/DepartmentCtrl');
@@ -20,7 +20,13 @@ const {
 } = require('./middlewares/validation');
 
 const routes = new Router();
-
+routes.get("/ping", (req, res) => {
+  try {
+    return res.json("200");
+  } catch (err) {
+    console.log(err)
+  }
+})
 routes.use(auth);
 
 routes.post('/auth/login', validate(validateAuth), AuthCtrl.auth);
@@ -105,4 +111,4 @@ routes.delete(
 routes.get('/report/users', permission, ReportCtrl.userReport);
 routes.get('/report/departments', permission, ReportCtrl.departmentsReport);
 
-export default routes;
+module.exports = routes

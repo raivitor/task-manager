@@ -1,21 +1,21 @@
 const { check, param, query } = require('express-validator');
-import { validationResult } from 'express-validator';
+const { validationResult } = require('express-validator');
 
 const TASK_STATUS = ['OPEN', 'IN_PROGRESS', 'FINISHED'];
-export const validateIdParam = [param('id').toInt().isInt()];
-export const validateAuth = [
+const validateIdParam = [param('id').toInt().isInt()];
+const validateAuth = [
   check('email').isEmail(),
   check('password').notEmpty()
 ];
 
-export const validateUser = [
+const validateUser = [
   check('name').notEmpty().trim(),
   check('email').isEmail(),
   check('password').notEmpty(),
   check('role_id').toInt().isInt()
 ];
 
-export const validateTask = [
+const validateTask = [
   check('description').notEmpty().trim(),
   check('status')
     .notEmpty()
@@ -30,7 +30,7 @@ export const validateTask = [
   check('end_time').isISO8601('yyyy-mm-dd').optional()
 ];
 
-export const validateTaskQuery = [
+const validateTaskQuery = [
   query('user').toInt().isInt().optional(),
   query('department').toInt().isInt().optional(),
   query('description').notEmpty().trim().optional(),
@@ -50,7 +50,7 @@ export const validateTaskQuery = [
   query('limit').toInt().isInt().optional()
 ];
 
-export const validateRole = [
+const validateRole = [
   check('name').notEmpty().trim(),
   check('routes_permission')
     .isArray()
@@ -84,9 +84,9 @@ export const validateRole = [
     })
 ];
 
-export const validateDepartment = [check('name').notEmpty().trim()];
+ const validateDepartment = [check('name').notEmpty().trim()];
 
-export const validate = (validations, optional = false) => {
+ const validate = (validations, optional = false) => {
   return async (req, res, next) => {
     await Promise.all(
       validations.map(validation =>
@@ -102,3 +102,5 @@ export const validate = (validations, optional = false) => {
     res.status(422).json({ errors: errors.array() });
   };
 };
+
+module.exports = {validate, validateDepartment, validateRole, validateTaskQuery, validateTaskQuery, validateUser, validateAuth, validateIdParam, validateTask}
