@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const User = require('../database/models/User');
 const { errorResolver } = require('../util/sequelizeUtil');
-const { generateToken } = require('../util/auth');
+const generateToken = require('../util/auth');
 
 module.exports = {
   async auth(req, res) {
